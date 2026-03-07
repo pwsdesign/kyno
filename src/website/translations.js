@@ -1,0 +1,116 @@
+export const t = {
+  en: {
+    nav: {
+      owners: 'Dog Owners',
+      providers: 'Providers',
+      partners: 'Partners',
+      cta: 'Get Early Access',
+    },
+    hero: {
+      tagline: 'Premium dog care · Coming soon to Miami',
+      headline1: 'Walks, grooming, hotels, vets —',
+      headline2: 'everything your dog deserves, in one place.',
+      learnMore: '↓ Learn more',
+      noSpam: 'No spam. Early access only.',
+    },
+    form: {
+      placeholder: 'your@email.com',
+      button: 'Notify me',
+      success: "You're on the list. We'll be in touch soon.",
+    },
+    services: [
+      { name: 'Walks', sub: 'GPS-tracked, certified' },
+      { name: 'Grooming', sub: 'Studio & mobile' },
+      { name: 'Dog Hotels', sub: 'Boutique boarding' },
+      { name: 'Vets', sub: 'Checkups & care' },
+      { name: 'Shop', sub: 'Curated goods' },
+      { name: 'Emergency', sub: '24/7 urgent care' },
+    ],
+    owners: {
+      label: 'For dog owners',
+      title: 'Everything your dog deserves, handled.',
+      body: 'Kyno brings together the best walkers, groomers, hotels, and vets in Miami — all bookable in minutes. Trusted providers, seamless scheduling, and real-time updates for every appointment.',
+    },
+    providers: {
+      label: 'For providers',
+      title: 'Join the Kyno network.',
+      body: 'Whether you walk, groom, board, or care for dogs — Kyno gives you the clients, tools, and support to grow your practice in Miami.',
+      footer: 'For walkers · groomers · dog hotels · vets · emergency care',
+      benefits: [
+        { title: 'Steady clients', desc: 'A growing base of engaged dog owners actively booking quality care — no cold outreach.' },
+        { title: 'Flexible schedule', desc: 'Set your own availability and manage bookings on your terms from a simple dashboard.' },
+        { title: 'Fair pay', desc: 'Transparent pricing, fast payouts, flat commission. You keep what you earn.' },
+      ],
+    },
+    partners: {
+      label: 'For partners',
+      title: 'Grow with Kyno.',
+      body: 'Partner with a premium dog care platform reaching engaged, brand-loyal pet owners in Miami. From product placements to co-branded services — we build partnerships that feel right for both brands.',
+      footer: 'Currently working with Chewy & The Farmer\'s Dog',
+      types: [
+        { title: 'Product Placement', desc: 'Featured visibility with premium dog owners.' },
+        { title: 'Co-branded Services', desc: 'Joint offerings under both brands.' },
+        { title: 'Delivery Integration', desc: 'Connect your fulfillment to our platform.' },
+        { title: 'Sponsored Content', desc: 'Reach owners in-app, in email, in print.' },
+      ],
+    },
+    footer: '© 2025 Kyno · Miami, FL',
+  },
+  es: {
+    nav: {
+      owners: 'Dueños',
+      providers: 'Proveedores',
+      partners: 'Socios',
+      cta: 'Acceso Anticipado',
+    },
+    hero: {
+      tagline: 'Cuidado premium para perros · Próximamente en Miami',
+      headline1: 'Paseos, grooming, hoteles, veterinarios —',
+      headline2: 'todo lo que tu perro merece, en un solo lugar.',
+      learnMore: '↓ Saber más',
+      noSpam: 'Sin spam. Solo acceso anticipado.',
+    },
+    form: {
+      placeholder: 'tu@email.com',
+      button: 'Notifícame',
+      success: 'Estás en la lista. Nos pondremos en contacto pronto.',
+    },
+    services: [
+      { name: 'Paseos', sub: 'Rastreado GPS, certificado' },
+      { name: 'Grooming', sub: 'Estudio y a domicilio' },
+      { name: 'Hoteles', sub: 'Hospedaje boutique' },
+      { name: 'Veterinarios', sub: 'Chequeos y cuidado' },
+      { name: 'Tienda', sub: 'Productos seleccionados' },
+      { name: 'Emergencias', sub: 'Atención urgente 24/7' },
+    ],
+    owners: {
+      label: 'Para dueños de perros',
+      title: 'Todo lo que tu perro merece, resuelto.',
+      body: 'Kyno reúne a los mejores paseadores, groomers, hoteles y veterinarios de Miami — todo reservable en minutos. Proveedores de confianza, agenda sin complicaciones y actualizaciones en tiempo real.',
+    },
+    providers: {
+      label: 'Para proveedores',
+      title: 'Únete a la red de Kyno.',
+      body: 'Ya sea que pasees, hagas grooming, hospedes o cuides perros — Kyno te da los clientes, las herramientas y el apoyo para crecer en Miami.',
+      footer: 'Para paseadores · groomers · hoteles · veterinarios · emergencias',
+      benefits: [
+        { title: 'Clientes constantes', desc: 'Una base creciente de dueños comprometidos que reservan activamente servicios de calidad — sin esfuerzo comercial.' },
+        { title: 'Horario flexible', desc: 'Define tu disponibilidad y gestiona reservas en tus términos desde un panel sencillo.' },
+        { title: 'Pago justo', desc: 'Precios transparentes, pagos rápidos, comisión fija. Te quedas con lo que ganas.' },
+      ],
+    },
+    partners: {
+      label: 'Para socios',
+      title: 'Crece con Kyno.',
+      body: 'Asóciate con una plataforma premium de cuidado canino que llega a dueños comprometidos y fieles a las marcas en Miami. Desde colocación de productos hasta servicios de marca compartida.',
+      footer: 'Actualmente trabajando con Chewy & The Farmer\'s Dog',
+      types: [
+        { title: 'Colocación de Productos', desc: 'Visibilidad destacada con dueños de perros premium.' },
+        { title: 'Servicios Compartidos', desc: 'Ofertas conjuntas bajo ambas marcas.' },
+        { title: 'Integración de Entrega', desc: 'Conecta tu logística a nuestra plataforma.' },
+        { title: 'Contenido Patrocinado', desc: 'Llega a dueños en la app, por email y en impreso.' },
+      ],
+    },
+    footer: '© 2025 Kyno · Miami, FL',
+  },
+};

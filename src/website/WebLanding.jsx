@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { colors } from '../styles/tokens';
+import { t } from './translations';
 
-function SignupForm({ dark }) {
+function SignupForm({ dark, lang }) {
   const [email, setEmail] = useState('');
   const [done, setDone] = useState(false);
+  const tx = t[lang].form;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,7 +21,7 @@ function SignupForm({ dark }) {
           justifyContent: 'center', fontSize: 11, color: colors.espresso, flexShrink: 0,
         }}>✓</div>
         <span style={{ fontSize: 13, color: dark ? colors.oliveLight : colors.olive, fontWeight: 300 }}>
-          You're on the list. We'll be in touch soon.
+          {tx.success}
         </span>
       </div>
     );
@@ -29,7 +31,7 @@ function SignupForm({ dark }) {
     <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
       <input
         type="email"
-        placeholder="your@email.com"
+        placeholder={tx.placeholder}
         value={email}
         onChange={e => setEmail(e.target.value)}
         style={{
@@ -65,29 +67,15 @@ function SignupForm({ dark }) {
         onMouseEnter={e => e.currentTarget.style.background = colors.brassLight}
         onMouseLeave={e => e.currentTarget.style.background = colors.brass}
       >
-        Notify me
+        {tx.button}
       </button>
     </form>
   );
 }
 
-const SERVICES = [
-  { index: '01', name: 'Walks', sub: 'GPS-tracked, certified' },
-  { index: '02', name: 'Grooming', sub: 'Studio & mobile' },
-  { index: '03', name: 'Dog Hotels', sub: 'Boutique boarding' },
-  { index: '04', name: 'Vets', sub: 'Checkups & care' },
-  { index: '05', name: 'Shop', sub: 'Curated goods' },
-  { index: '06', name: 'Emergency', sub: '24/7 urgent care' },
-];
+export default function WebLanding({ lang }) {
+  const tx = t[lang];
 
-const PARTNERSHIP_TYPES = [
-  { title: 'Product Placement', desc: 'Featured visibility with premium dog owners.' },
-  { title: 'Co-branded Services', desc: 'Joint offerings under both brands.' },
-  { title: 'Delivery Integration', desc: 'Connect your fulfillment to our platform.' },
-  { title: 'Sponsored Content', desc: 'Reach owners in-app, in email, in print.' },
-];
-
-export default function WebLanding() {
   return (
     <div>
 
@@ -132,7 +120,7 @@ export default function WebLanding() {
             color: colors.brass,
             fontWeight: 400,
             marginBottom: 32,
-          }}>Premium dog care · Coming soon to Miami</div>
+          }}>{tx.hero.tagline}</div>
 
           <div style={{
             fontFamily: "'Cormorant Garamond', serif",
@@ -143,22 +131,22 @@ export default function WebLanding() {
             marginBottom: 52,
             letterSpacing: -0.3,
           }}>
-            Walks, grooming, hotels, vets —<br />everything your dog deserves, in one place.
+            {tx.hero.headline1}<br />{tx.hero.headline2}
           </div>
 
-          <SignupForm dark />
+          <SignupForm dark lang={lang} />
 
           <div style={{
             marginTop: 20, fontSize: 10,
             color: 'rgba(122,127,109,0.55)', letterSpacing: 0.5,
-          }}>No spam. Early access only.</div>
+          }}>{tx.hero.noSpam}</div>
         </div>
 
         <div style={{
           position: 'absolute', bottom: 36,
           fontSize: 9, letterSpacing: 2.5, textTransform: 'uppercase',
           color: 'rgba(196,164,107,0.3)', zIndex: 1,
-        }}>↓ Learn more</div>
+        }}>{tx.hero.learnMore}</div>
       </section>
 
       {/* ── FOR DOG OWNERS ────────────────────── */}
@@ -170,27 +158,27 @@ export default function WebLanding() {
               <div style={{
                 fontSize: 9, letterSpacing: 3, textTransform: 'uppercase',
                 color: colors.brass, fontWeight: 500, marginBottom: 16,
-              }}>For dog owners</div>
+              }}>{tx.owners.label}</div>
 
               <div style={{
                 fontFamily: "'Cormorant Garamond', serif",
                 fontSize: 48, fontWeight: 400, color: colors.charcoal,
                 letterSpacing: -1.2, lineHeight: 1.1, marginBottom: 20,
-              }}>Everything your dog deserves, handled.</div>
+              }}>{tx.owners.title}</div>
 
               <div style={{
                 fontSize: 14, color: colors.olive, fontWeight: 300,
                 lineHeight: 1.8, marginBottom: 40,
               }}>
-                Kyno brings together the best walkers, groomers, hotels, and vets in Miami — all bookable in minutes. Trusted providers, seamless scheduling, and real-time updates for every appointment.
+                {tx.owners.body}
               </div>
 
-              <SignupForm dark={false} />
+              <SignupForm dark={false} lang={lang} />
             </div>
 
-            {/* Service cards — brass index numbers, no emoji */}
+            {/* Service cards */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-              {SERVICES.map(s => (
+              {tx.services.map((s, i) => (
                 <div key={s.name} style={{
                   background: colors.clayDark,
                   borderRadius: 16,
@@ -200,7 +188,7 @@ export default function WebLanding() {
                     fontFamily: "'Cormorant Garamond', serif",
                     fontSize: 13, color: colors.brass, fontWeight: 400,
                     letterSpacing: 1, marginBottom: 14,
-                  }}>{s.index}</div>
+                  }}>0{i + 1}</div>
                   <div style={{
                     fontFamily: "'Cormorant Garamond', serif",
                     fontSize: 18, fontWeight: 500, color: colors.charcoal, marginBottom: 4,
@@ -218,14 +206,10 @@ export default function WebLanding() {
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
 
-            {/* Benefit cards — brass numerals, no emoji */}
+            {/* Benefit cards */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {[
-                { num: '01', title: 'Steady clients', desc: 'A growing base of engaged dog owners actively booking quality care — no cold outreach.' },
-                { num: '02', title: 'Flexible schedule', desc: 'Set your own availability and manage bookings on your terms from a simple dashboard.' },
-                { num: '03', title: 'Fair pay', desc: 'Transparent pricing, fast payouts, flat commission. You keep what you earn.' },
-              ].map(b => (
-                <div key={b.num} style={{
+              {tx.providers.benefits.map((b, i) => (
+                <div key={b.title} style={{
                   background: 'rgba(232,223,212,0.05)',
                   border: '1px solid rgba(196,164,107,0.1)',
                   borderRadius: 16,
@@ -238,7 +222,7 @@ export default function WebLanding() {
                     fontFamily: "'Cormorant Garamond', serif",
                     fontSize: 24, color: colors.brass, fontWeight: 400,
                     lineHeight: 1, flexShrink: 0, marginTop: 2,
-                  }}>{b.num}</div>
+                  }}>0{i + 1}</div>
                   <div>
                     <div style={{
                       fontFamily: "'Cormorant Garamond', serif",
@@ -256,25 +240,25 @@ export default function WebLanding() {
               <div style={{
                 fontSize: 9, letterSpacing: 3, textTransform: 'uppercase',
                 color: colors.brass, fontWeight: 500, marginBottom: 16,
-              }}>For providers</div>
+              }}>{tx.providers.label}</div>
 
               <div style={{
                 fontFamily: "'Cormorant Garamond', serif",
                 fontSize: 48, fontWeight: 400, color: colors.sandLight,
                 letterSpacing: -1.2, lineHeight: 1.1, marginBottom: 20,
-              }}>Join the Kyno network.</div>
+              }}>{tx.providers.title}</div>
 
               <div style={{
                 fontSize: 14, color: colors.oliveLight, fontWeight: 300,
                 lineHeight: 1.8, marginBottom: 40,
               }}>
-                Whether you walk, groom, board, or care for dogs — Kyno gives you the clients, tools, and support to grow your practice in Miami.
+                {tx.providers.body}
               </div>
 
-              <SignupForm dark />
+              <SignupForm dark lang={lang} />
 
               <div style={{ marginTop: 16, fontSize: 11, color: 'rgba(122,127,109,0.45)', lineHeight: 1.6 }}>
-                For walkers · groomers · dog hotels · vets · emergency care
+                {tx.providers.footer}
               </div>
             </div>
           </div>
@@ -290,31 +274,31 @@ export default function WebLanding() {
               <div style={{
                 fontSize: 9, letterSpacing: 3, textTransform: 'uppercase',
                 color: colors.brass, fontWeight: 500, marginBottom: 16,
-              }}>For partners</div>
+              }}>{tx.partners.label}</div>
 
               <div style={{
                 fontFamily: "'Cormorant Garamond', serif",
                 fontSize: 48, fontWeight: 400, color: colors.charcoal,
                 letterSpacing: -1.2, lineHeight: 1.1, marginBottom: 20,
-              }}>Grow with Kyno.</div>
+              }}>{tx.partners.title}</div>
 
               <div style={{
                 fontSize: 14, color: colors.olive, fontWeight: 300,
                 lineHeight: 1.8, marginBottom: 40,
               }}>
-                Partner with a premium dog care platform reaching engaged, brand-loyal pet owners in Miami. From product placements to co-branded services — we build partnerships that feel right for both brands.
+                {tx.partners.body}
               </div>
 
-              <SignupForm dark={false} />
+              <SignupForm dark={false} lang={lang} />
 
               <div style={{ marginTop: 16, fontSize: 11, color: colors.olive, lineHeight: 1.6 }}>
-                Currently working with Chewy &amp; The Farmer's Dog
+                {tx.partners.footer}
               </div>
             </div>
 
-            {/* Partnership type cards — no emoji, brass short rule accent */}
+            {/* Partnership type cards */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-              {PARTNERSHIP_TYPES.map(p => (
+              {tx.partners.types.map(p => (
                 <div key={p.title} style={{
                   background: colors.clayDark,
                   borderRadius: 16,
@@ -364,7 +348,7 @@ export default function WebLanding() {
         </div>
 
         <span style={{ fontSize: 10, color: 'rgba(122,127,109,0.45)', letterSpacing: 0.5 }}>
-          © 2025 Kyno · Miami, FL
+          {tx.footer}
         </span>
       </footer>
 
