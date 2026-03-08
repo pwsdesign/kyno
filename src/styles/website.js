@@ -849,6 +849,19 @@ const websiteStyles = `
     line-height: 1.6;
   }
 
+  /* ── LANDING PAGE LAYOUT ────────────────── */
+  .lp-hero { padding: 120px 48px 100px; }
+  .lp-section { padding: 100px 48px; }
+  .lp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .lp-hero-wordmark { font-size: 88px; letter-spacing: -3px; }
+  .lp-hero-sub { font-size: 26px; letter-spacing: -0.3px; }
+  .lp-section-heading { font-size: 48px; letter-spacing: -1.2px; }
+
   /* ── RESPONSIVE ─────────────────────────── */
   @media (max-width: 1024px) {
     .web-book-layout { grid-template-columns: 1fr; }
@@ -868,6 +881,16 @@ const websiteStyles = `
     .web-section-title,
     .web-section-title-light { font-size: 34px; }
     .web-nav-link { display: none; }
+    .web-nav-inner { padding: 0 20px; }
+    .lp-nav-cta { display: none; }
+
+    /* Landing responsive */
+    .lp-hero { padding: 100px 24px 72px; }
+    .lp-section { padding: 64px 24px; }
+    .lp-grid { grid-template-columns: 1fr; gap: 48px; }
+    .lp-hero-wordmark { font-size: 64px; letter-spacing: -2px; }
+    .lp-hero-sub { font-size: 20px; }
+    .lp-section-heading { font-size: 36px; letter-spacing: -0.8px; }
   }
 `;
 

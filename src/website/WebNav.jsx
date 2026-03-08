@@ -65,6 +65,7 @@ export default function WebNav({ lang, setLang }) {
           </div>
 
           <button
+            className="lp-nav-cta"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             style={{
               background: colors.brass,

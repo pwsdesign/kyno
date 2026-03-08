@@ -80,7 +80,7 @@ export default function WebLanding({ lang }) {
     <div>
 
       {/* ── HERO ──────────────────────────────── */}
-      <section style={{
+      <section className="lp-hero" style={{
         background: colors.espresso,
         minHeight: '100vh',
         display: 'flex',
@@ -88,7 +88,6 @@ export default function WebLanding({ lang }) {
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
-        padding: '120px 48px 100px',
         position: 'relative',
         overflow: 'hidden',
       }}>
@@ -101,13 +100,11 @@ export default function WebLanding({ lang }) {
           pointerEvents: 'none',
         }} />
 
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: 640 }}>
-          <div style={{
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 640, width: '100%' }}>
+          <div className="lp-hero-wordmark" style={{
             fontFamily: "'Cormorant Garamond', serif",
-            fontSize: 88,
             fontWeight: 400,
             color: colors.sandLight,
-            letterSpacing: -3,
             lineHeight: 1,
             marginBottom: 24,
           }}>Kyno</div>
@@ -122,14 +119,12 @@ export default function WebLanding({ lang }) {
             marginBottom: 32,
           }}>{tx.hero.tagline}</div>
 
-          <div style={{
+          <div className="lp-hero-sub" style={{
             fontFamily: "'Cormorant Garamond', serif",
-            fontSize: 26,
             fontWeight: 400,
             color: 'rgba(240,233,224,0.65)',
             lineHeight: 1.5,
             marginBottom: 52,
-            letterSpacing: -0.3,
           }}>
             {tx.hero.headline1}<br />{tx.hero.headline2}
           </div>
@@ -150,9 +145,9 @@ export default function WebLanding({ lang }) {
       </section>
 
       {/* ── FOR DOG OWNERS ────────────────────── */}
-      <section id="owners" style={{ background: colors.sand, padding: '100px 48px' }}>
+      <section id="owners" className="lp-section" style={{ background: colors.sand }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+          <div className="lp-grid">
 
             <div>
               <div style={{
@@ -160,10 +155,10 @@ export default function WebLanding({ lang }) {
                 color: colors.brass, fontWeight: 500, marginBottom: 16,
               }}>{tx.owners.label}</div>
 
-              <div style={{
+              <div className="lp-section-heading" style={{
                 fontFamily: "'Cormorant Garamond', serif",
-                fontSize: 48, fontWeight: 400, color: colors.charcoal,
-                letterSpacing: -1.2, lineHeight: 1.1, marginBottom: 20,
+                fontWeight: 400, color: colors.charcoal,
+                lineHeight: 1.1, marginBottom: 20,
               }}>{tx.owners.title}</div>
 
               <div style={{
@@ -202,9 +197,9 @@ export default function WebLanding({ lang }) {
       </section>
 
       {/* ── FOR PROVIDERS ─────────────────────── */}
-      <section id="providers" style={{ background: colors.charcoal, padding: '100px 48px' }}>
+      <section id="providers" className="lp-section" style={{ background: colors.charcoal }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+          <div className="lp-grid">
 
             {/* Benefit cards */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -242,10 +237,10 @@ export default function WebLanding({ lang }) {
                 color: colors.brass, fontWeight: 500, marginBottom: 16,
               }}>{tx.providers.label}</div>
 
-              <div style={{
+              <div className="lp-section-heading" style={{
                 fontFamily: "'Cormorant Garamond', serif",
-                fontSize: 48, fontWeight: 400, color: colors.sandLight,
-                letterSpacing: -1.2, lineHeight: 1.1, marginBottom: 20,
+                fontWeight: 400, color: colors.sandLight,
+                lineHeight: 1.1, marginBottom: 20,
               }}>{tx.providers.title}</div>
 
               <div style={{
@@ -266,9 +261,9 @@ export default function WebLanding({ lang }) {
       </section>
 
       {/* ── FOR PARTNERS ──────────────────────── */}
-      <section id="partners" style={{ background: colors.sand, padding: '100px 48px' }}>
+      <section id="partners" className="lp-section" style={{ background: colors.sand }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+          <div className="lp-grid">
 
             <div>
               <div style={{
@@ -276,10 +271,10 @@ export default function WebLanding({ lang }) {
                 color: colors.brass, fontWeight: 500, marginBottom: 16,
               }}>{tx.partners.label}</div>
 
-              <div style={{
+              <div className="lp-section-heading" style={{
                 fontFamily: "'Cormorant Garamond', serif",
-                fontSize: 48, fontWeight: 400, color: colors.charcoal,
-                letterSpacing: -1.2, lineHeight: 1.1, marginBottom: 20,
+                fontWeight: 400, color: colors.charcoal,
+                lineHeight: 1.1, marginBottom: 20,
               }}>{tx.partners.title}</div>
 
               <div style={{
@@ -327,7 +322,7 @@ export default function WebLanding({ lang }) {
       {/* ── FOOTER ────────────────────────────── */}
       <footer style={{
         background: colors.charcoal,
-        padding: '44px 48px',
+        padding: '44px 24px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
