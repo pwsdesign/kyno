@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "Kyno",
+    "slug": "kyno",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "kyno",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#FDFBF7",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "pet.kyno.app",
+      "buildNumber": "1"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#FDFBF7"
+      },
+      "package": "pet.kyno.app",
+      "versionCode": 1
+    },
+    "plugins": [
+      ["expo-router", { "root": "./app" }],
+      "expo-font",
+      "expo-splash-screen"
+    ]
+  }
+}

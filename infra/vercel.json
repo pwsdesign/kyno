@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "projects": [
+    {
+      "name": "kyno-web",
+      "rootDirectory": "apps/web",
+      "framework": "vite"
+    }
+  ]
+}

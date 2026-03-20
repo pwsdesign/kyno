@@ -1,0 +1,9 @@
+declare namespace NodeJS {
+  interface ProcessEnv {
+    EXPO_PUBLIC_ENABLE_APPLE_WALLET?: string;
+    EXPO_PUBLIC_SUPABASE_ANON_KEY?: string;
+    EXPO_PUBLIC_SUPABASE_KEY?: string;
+    EXPO_PUBLIC_SUPABASE_URL?: string;
+    EXPO_PUBLIC_WEB_URL?: string;
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "@kyno/provider",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Walker-facing provider app (Phase 2 — GPS, earnings, scheduling)"
+}

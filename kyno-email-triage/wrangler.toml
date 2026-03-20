@@ -1,0 +1,10 @@
+name = "kyno-email-triage"
+main = "src/index.js"
+compatibility_date = "2024-12-01"
+
+# ─── KV Namespace for logging/analytics ───
+[[kv_namespaces]]
+binding = "EMAIL_LOG"
+id = "17486f26f4c34915be49f45b93e8f0a0"
+
+
