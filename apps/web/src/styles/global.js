@@ -145,8 +145,18 @@ const globalStyles = `
 
   /* ── ANIMATIONS ─────────────────────────── */
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
+    from { opacity: 0; transform: translateY(18px); }
     to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes scaleFade {
+    from { opacity: 0; transform: scale(0.96); }
+    to   { opacity: 1; transform: scale(1); }
   }
 
   .fade-up   { animation: fadeUp 0.35s ease forwards; }
@@ -156,6 +166,23 @@ const globalStyles = `
   .fade-up-4 { animation-delay: 0.20s; opacity: 0; }
   .fade-up-5 { animation-delay: 0.25s; opacity: 0; }
   .fade-up-6 { animation-delay: 0.30s; opacity: 0; }
+
+  /* ── SCROLL-REVEAL ───────────────────────── */
+  [data-reveal]          { opacity: 0; }
+  [data-reveal].is-revealed {
+    animation: fadeUp 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+  [data-reveal="fade"].is-revealed {
+    animation: fadeIn 0.5s ease both;
+  }
+  [data-reveal="scale"].is-revealed {
+    animation: scaleFade 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+  [data-reveal-delay="1"] { animation-delay: 0.07s; }
+  [data-reveal-delay="2"] { animation-delay: 0.14s; }
+  [data-reveal-delay="3"] { animation-delay: 0.21s; }
+  [data-reveal-delay="4"] { animation-delay: 0.28s; }
+  [data-reveal-delay="5"] { animation-delay: 0.35s; }
 `;
 
 export default globalStyles;

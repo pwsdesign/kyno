@@ -281,10 +281,13 @@
 .k-settings-row {
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px 0; border-bottom: 1px solid var(--k-border-subtle);
-  transition: opacity 0.15s;
+  transition: background 0.15s, padding-left 0.15s;
 }
 .k-settings-row--action { cursor: pointer; }
-.k-settings-row--action:hover { opacity: 0.8; }
+.k-settings-row--action:hover {
+  background: var(--k-surface-raised);
+  padding-left: 6px;
+}
 .k-settings-row__label { font-size: 14px; color: var(--k-text); }
 .k-settings-row__value { font-size: 13px; color: var(--k-text-tertiary); display: flex; align-items: center; gap: 8px; }
 .k-settings-row__chevron { color: var(--k-text-tertiary); font-size: 14px; }
@@ -405,6 +408,25 @@
   animation: k-spin 0.6s linear infinite;
 }
 @keyframes k-spin { to { transform: rotate(360deg); } }
+
+/* ---- Page entrance animation ---- */
+@keyframes k-page-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.k-page-enter {
+  animation: k-page-enter 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* ---- Membership card glow pulse ---- */
+@keyframes k-glow-pulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.08); }
+}
+.k-membership__glow {
+  will-change: opacity, transform;
+  animation: k-glow-pulse 4s ease-in-out infinite;
+}
 
 /* ---- Utility ---- */
 .k-mt-sm { margin-top: 8px; }

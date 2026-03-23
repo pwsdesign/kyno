@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 import { colors } from '../styles/tokens';
 import {
   darkCardSurfaceStyle,
@@ -670,7 +671,7 @@ function KynoPlusSection({ lang, palette }) {
   return (
     <section className="lp-plus-shell" style={palette.sectionSurface}>
       <div className="lp-shell">
-        <div className="lp-plus-panel" style={surfaceCardStyle(palette.cardSurface, palette)}>
+        <div className="lp-plus-panel" data-reveal="scale" style={surfaceCardStyle(palette.cardSurface, palette)}>
           <div className="lp-plus-layout">
             <div className="lp-plus-copy">
               <div className="lp-kicker" style={{ color: palette.label }}>
@@ -741,23 +742,46 @@ export default function WebLanding({ audience = 'owners', lang, isDark }) {
   const content = getAudienceContent(audience, tx);
   const FormComponent = content.form;
 
+  useScrollReveal();
+
+  const heroRef = useRef(null);
+  const isDarkRef = useRef(isDark);
+  isDarkRef.current = isDark;
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero) return;
+
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (isDarkRef.current) {
+        hero.style.backgroundPosition = `calc(100% + 90px) ${-90 + y * 0.12}px, center`;
+      } else {
+        hero.style.backgroundPosition = `100% ${y * 0.10}px, center`;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <div className="lp-page" style={{ ...palette.pageSurface }}>
-      <section className="lp-hero-shell" style={palette.heroSurface}>
+      <section ref={heroRef} className="lp-hero-shell" style={palette.heroSurface}>
         <div className="lp-shell">
           <div className="lp-hero-layout">
             <div className="lp-hero-copy">
-              <div className="lp-kicker" style={{ color: palette.label }}>
+              <div className="lp-kicker" data-reveal="fade" style={{ color: palette.label }}>
                 {content.label}
               </div>
-              <h1 className="lp-hero-title" style={{ color: palette.title }}>
+              <h1 className="lp-hero-title" data-reveal data-reveal-delay="1" style={{ color: palette.title }}>
                 {content.title}
               </h1>
-              <p className="lp-hero-body" style={{ color: palette.muted }}>
+              <p className="lp-hero-body" data-reveal data-reveal-delay="2" style={{ color: palette.muted }}>
                 {content.body}
               </p>
 
-              <div className="lp-chip-row">
+              <div className="lp-chip-row" data-reveal data-reveal-delay="3">
                 {content.highlights.map((item) => (
                   <span
                     key={item}
@@ -772,6 +796,8 @@ export default function WebLanding({ audience = 'owners', lang, isDark }) {
               <div
                 id="join"
                 className="lp-form-card"
+                data-reveal="scale"
+                data-reveal-delay="4"
                 style={surfaceCardStyle(
                   palette.cardSurface,
                   palette,
@@ -789,7 +815,7 @@ export default function WebLanding({ audience = 'owners', lang, isDark }) {
             </div>
 
             <div className="lp-hero-aside">
-              <div className="lp-spotlight-card" style={surfaceCardStyle(palette.softCardSurface, palette)}>
+              <div className="lp-spotlight-card" data-reveal="scale" style={surfaceCardStyle(palette.softCardSurface, palette)}>
                 <div className="lp-kicker" style={{ color: palette.label }}>
                   {content.spotlightLabel}
                 </div>
@@ -807,8 +833,8 @@ export default function WebLanding({ audience = 'owners', lang, isDark }) {
               </div>
 
               <div className="lp-stat-grid">
-                {content.stats.map((stat) => (
-                  <div key={stat.label} className="lp-stat-card" style={surfaceCardStyle(palette.cardSurface, palette)}>
+                {content.stats.map((stat, index) => (
+                  <div key={stat.label} className="lp-stat-card" data-reveal data-reveal-delay={String(index + 1)} style={surfaceCardStyle(palette.cardSurface, palette)}>
                     <div className="lp-stat-value" style={{ color: palette.title }}>
                       {stat.value}
                     </div>
@@ -820,8 +846,8 @@ export default function WebLanding({ audience = 'owners', lang, isDark }) {
               </div>
 
               <div className="lp-card-grid">
-                {content.cards.map((card) => (
-                  <div key={card.title} className="lp-card" style={surfaceCardStyle(palette.softCardSurface, palette)}>
+                {content.cards.map((card, index) => (
+                  <div key={card.title} className="lp-card" data-reveal data-reveal-delay={String((index % 5) + 1)} style={surfaceCardStyle(palette.softCardSurface, palette)}>
                     <div className="lp-card-eyebrow" style={{ color: palette.label }}>
                       {card.eyebrow}
                     </div>
@@ -845,18 +871,18 @@ export default function WebLanding({ audience = 'owners', lang, isDark }) {
         <div className="lp-shell">
           <div className="lp-section-layout">
             <div>
-              <div className="lp-kicker" style={{ color: palette.label }}>
+              <div className="lp-kicker" data-reveal="fade" style={{ color: palette.label }}>
                 {tx.shared.detailLabel}
               </div>
-              <h2 className="lp-section-title" style={{ color: palette.title }}>
+              <h2 className="lp-section-title" data-reveal data-reveal-delay="1" style={{ color: palette.title }}>
                 {content.sectionTitle}
               </h2>
-              <p className="lp-section-body" style={{ color: palette.muted }}>
+              <p className="lp-section-body" data-reveal data-reveal-delay="2" style={{ color: palette.muted }}>
                 {content.sectionBody}
               </p>
             </div>
 
-            <div className="lp-step-panel" style={surfaceCardStyle(palette.cardSurface, palette)}>
+            <div className="lp-step-panel" data-reveal="scale" style={surfaceCardStyle(palette.cardSurface, palette)}>
               {content.steps.map((step, index) => (
                 <div key={step.title} className="lp-step-row">
                   <div className="lp-step-index">{index + 1}</div>
@@ -873,7 +899,7 @@ export default function WebLanding({ audience = 'owners', lang, isDark }) {
             </div>
           </div>
 
-          <div className="lp-switch-panel" style={surfaceCardStyle(palette.softCardSurface, palette)}>
+          <div className="lp-switch-panel" data-reveal style={surfaceCardStyle(palette.softCardSurface, palette)}>
             <div className="lp-kicker" style={{ color: palette.label }}>
               {tx.shared.audienceSwitchLabel}
             </div>

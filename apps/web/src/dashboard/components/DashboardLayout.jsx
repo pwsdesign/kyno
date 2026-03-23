@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 
@@ -14,6 +14,7 @@ export default function DashboardLayout({ children }) {
   const navigate = useNavigate();
   const { profile } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { pathname } = useLocation();
 
   return (
     <div className="k-layout">
@@ -61,7 +62,9 @@ export default function DashboardLayout({ children }) {
 
       {/* Main content */}
       <main className="k-main">
-        {children}
+        <div key={pathname} className="k-page-enter">
+          {children}
+        </div>
       </main>
 
       {/* Bottom nav (mobile) */}

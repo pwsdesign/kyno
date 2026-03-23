@@ -1,5 +1,7 @@
 import { useCallback, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import Animated from 'react-native-reanimated';
+import { useScreenEntrance } from '../../hooks/useScreenEntrance';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useFocusEffect } from 'expo-router';
 import Constants from 'expo-constants';
@@ -68,6 +70,7 @@ export default function SettingsScreen() {
   }, []));
 
   const displayName = [profile?.first_name, profile?.last_name].filter(Boolean).join(' ') || 'Account';
+  const contentAnim = useScreenEntrance(0);
 
   const handleSignOut = () => {
     Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
@@ -87,6 +90,7 @@ export default function SettingsScreen() {
     <SafeAreaView style={[s.safe, { backgroundColor: c.background }]} edges={['top']}>
       <ScreenBackground isDark={isDark} />
       <ScrollView style={s.scroll} showsVerticalScrollIndicator={false}>
+        <Animated.View style={contentAnim}>
         {/* Header */}
         <View style={s.header}>
           <TouchableOpacity onPress={() => router.back()}>
@@ -140,6 +144,7 @@ export default function SettingsScreen() {
         <Text style={[s.version, { color: c.textTertiary }]}>Kyno v{appVersion}</Text>
 
         <View style={{ height: 40 }} />
+        </Animated.View>
       </ScrollView>
     </SafeAreaView>
   );

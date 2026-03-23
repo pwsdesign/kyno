@@ -363,8 +363,9 @@ const websiteStyles = `
     text-decoration: none;
   }
 
+  .web-btn-primary { transition: all 0.22s cubic-bezier(0.22, 0.61, 0.36, 1); }
   .web-btn-primary:hover { background: ${colors.brassLight}; transform: translateY(-1px); }
-  .web-btn-primary:active { transform: scale(0.98); }
+  .web-btn-primary:active { transform: scale(0.97) translateY(0); transition: all 0.08s ease; }
 
   .web-btn-ghost {
     background: transparent;
@@ -1144,8 +1145,31 @@ const websiteStyles = `
     padding: 0 0 24px;
   }
 
+  @keyframes k-sheen {
+    0%   { background-position: 200% 0; }
+    40%  { background-position: -200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
   .lp-plus-panel {
     padding: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .lp-plus-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(212,168,58,0.07) 50%,
+      transparent 60%
+    );
+    background-size: 200% 100%;
+    animation: k-sheen 7s ease-in-out infinite;
+    pointer-events: none;
   }
 
   .lp-plus-layout {
@@ -1314,11 +1338,12 @@ const websiteStyles = `
   .lp-switch-card {
     text-decoration: none;
     padding: 22px 20px;
-    transition: transform 0.15s ease, border-color 0.15s ease;
+    transition: transform 0.22s cubic-bezier(0.22, 0.61, 0.36, 1), border-color 0.15s ease, box-shadow 0.22s ease;
   }
 
   .lp-switch-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(53,50,44,0.08);
   }
 
   .lp-switch-card.is-active {

@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -29,6 +29,14 @@ import {
   subscribeToCommunityMessages,
 } from '../../services/kynoPlusService';
 import type { Database } from '../../types/database';
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
+import { useScreenEntrance } from '../../hooks/useScreenEntrance';
+import { AnimatedPressable } from '../../components/AnimatedPressable';
 
 type MembershipUpgradeRequest = Database['public']['Tables']['membership_upgrade_requests']['Row'];
 type CommunityMessage = Database['public']['Tables']['community_messages']['Row'];
@@ -68,6 +76,23 @@ function getRequestMessage(request: MembershipUpgradeRequest | null) {
   }
 
   return 'Your last request was declined. You can submit another request from the membership screen.';
+}
+
+function AnimatedMessageCard({ children }: { children: React.ReactNode }) {
+  const opacity = useSharedValue(0);
+  const scale = useSharedValue(0.96);
+
+  useEffect(() => {
+    opacity.value = withTiming(1, { duration: 280 });
+    scale.value = withTiming(1, { duration: 280, easing: Easing.out(Easing.cubic) });
+  }, []);
+
+  const style = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    transform: [{ scale: scale.value }],
+  }));
+
+  return <Animated.View style={style}>{children}</Animated.View>;
 }
 
 export default function CommunityScreen() {
@@ -141,6 +166,8 @@ export default function CommunityScreen() {
   }, []));
 
   const isPlus = isKynoPlusPlan(profile);
+  const headerAnim = useScreenEntrance(0);
+  const contentAnim = useScreenEntrance(100);
 
   const handleSend = async () => {
     const trimmedDraft = draft.trim();
@@ -182,7 +209,7 @@ export default function CommunityScreen() {
             }
           }}
         >
-          <View style={s.header}>
+          <Animated.View style={[s.header, headerAnim]}>
             <TouchableOpacity onPress={() => router.back()}>
               <Text style={[s.backText, { color: c.textSecondary }]}>← Back</Text>
             </TouchableOpacity>
@@ -193,8 +220,9 @@ export default function CommunityScreen() {
                 ? 'One live room for premium owners.'
                 : 'Upgrade to KYNO+ to unlock the live members room.'}
             </Text>
-          </View>
+          </Animated.View>
 
+          <Animated.View style={contentAnim}>
           {loading ? (
             <ThemedCard lightBackgroundColor={stone[100]} style={s.loadingCard}>
               <ActivityIndicator color={c.accent} />
@@ -227,9 +255,9 @@ export default function CommunityScreen() {
                 {request?.created_at ? (
                   <Text style={[s.metaText, { color: c.textTertiary }]}>Latest update: {formatTimestamp(request.created_at)}</Text>
                 ) : null}
-                <TouchableOpacity style={s.primaryBtn} onPress={() => router.push('/membership')}>
+                <AnimatedPressable style={s.primaryBtn} onPress={() => router.push('/membership')}>
                   <Text style={s.primaryBtnText}>GO TO MEMBERSHIP</Text>
-                </TouchableOpacity>
+                </AnimatedPressable>
               </ThemedCard>
             </>
           ) : (
@@ -247,13 +275,15 @@ export default function CommunityScreen() {
                 </ThemedCard>
               ) : (
                 messages.map(message => (
-                  <ThemedCard key={message.id} lightBackgroundColor={c.surface} lightBorderColor={c.border} style={s.messageCard}>
+                  <AnimatedMessageCard key={message.id}>
+                  <ThemedCard lightBackgroundColor={c.surface} lightBorderColor={c.border} style={s.messageCard}>
                     <View style={s.messageMeta}>
                       <Text style={[s.messageAuthor, { color: c.textPrimary }]}>{message.author_label}</Text>
                       <Text style={[s.messageTime, { color: c.textTertiary }]}>{formatTimestamp(message.created_at)}</Text>
                     </View>
                     <Text style={[s.messageBody, { color: c.textSecondary }]}>{message.body}</Text>
                   </ThemedCard>
+                  </AnimatedMessageCard>
                 ))
               )}
 
@@ -268,13 +298,15 @@ export default function CommunityScreen() {
                 />
                 <View style={s.formFooter}>
                   <Text style={[s.metaText, { color: c.textTertiary }]}>{draft.length}/{COMMUNITY_MESSAGE_MAX_LENGTH}</Text>
-                  <TouchableOpacity style={[s.primaryBtn, (!draft.trim() || sending) && s.disabledBtn]} onPress={() => void handleSend()} disabled={!draft.trim() || sending}>
+                  <AnimatedPressable style={[s.primaryBtn, (!draft.trim() || sending) && s.disabledBtn]} onPress={() => void handleSend()} disabled={!draft.trim() || sending}>
                     <Text style={s.primaryBtnText}>{sending ? 'SENDING...' : 'SEND'}</Text>
-                  </TouchableOpacity>
+                  </AnimatedPressable>
                 </View>
               </ThemedCard>
             </>
           )}
+
+          </Animated.View>
 
           {error ? <Text style={s.error}>{error}</Text> : null}
 

@@ -1,5 +1,14 @@
+import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { colors, fonts, gold, stone, warm } from '../constants/colors';
 import type { UserProfile } from '../services/authService';
@@ -25,8 +34,35 @@ export function MembershipCard({ profile }: { profile: UserProfile | null }) {
   const isPlus = isKynoPlusPlan(profile);
   const planLabel = getMembershipPlanLabel(profile);
 
+  // Card entrance
+  const cardScale = useSharedValue(0.97);
+  const cardOpacity = useSharedValue(0);
+  const cardAnimStyle = useAnimatedStyle(() => ({
+    opacity: cardOpacity.value,
+    transform: [{ scale: cardScale.value }],
+  }));
+
+  // Gold glow pulse
+  const glowOpacity = useSharedValue(0.7);
+  const glowAnimStyle = useAnimatedStyle(() => ({
+    opacity: glowOpacity.value,
+  }));
+
+  useEffect(() => {
+    cardScale.value = withTiming(1, { duration: 500, easing: Easing.out(Easing.cubic) });
+    cardOpacity.value = withTiming(1, { duration: 400 });
+    glowOpacity.value = withRepeat(
+      withSequence(
+        withTiming(1, { duration: 2800, easing: Easing.inOut(Easing.sine) }),
+        withTiming(0.7, { duration: 2800, easing: Easing.inOut(Easing.sine) })
+      ),
+      -1,
+      false
+    );
+  }, []);
+
   return (
-    <View style={s.wrapper}>
+    <Animated.View style={[s.wrapper, cardAnimStyle]}>
       <Text style={s.eyebrow}>MEMBERSHIP CARD</Text>
       <View style={s.card}>
         <LinearGradient
@@ -35,17 +71,19 @@ export function MembershipCard({ profile }: { profile: UserProfile | null }) {
           start={{ x: 0, y: 0 }}
           style={StyleSheet.absoluteFill}
         />
-        <LinearGradient
-          colors={[
-            'rgba(212,168,58,0.2)',
-            'rgba(212,168,58,0.12)',
-            'rgba(212,168,58,0.05)',
-            'rgba(212,168,58,0)',
-          ]}
-        end={{ x: -0.1, y: 0.20 }}
-        start={{ x: 0.10, y: -0.4 }}
-        style={s.goldGlow}
-        />
+        <Animated.View style={[s.goldGlow, glowAnimStyle]}>
+          <LinearGradient
+            colors={[
+              'rgba(212,168,58,0.2)',
+              'rgba(212,168,58,0.12)',
+              'rgba(212,168,58,0.05)',
+              'rgba(212,168,58,0)',
+            ]}
+            end={{ x: -0.1, y: 0.20 }}
+            start={{ x: 0.10, y: -0.4 }}
+            style={StyleSheet.absoluteFill}
+          />
+        </Animated.View>
         <View style={s.brandRow}>
           <View style={s.brandLockup}>
             <Text style={s.brandInitial}>{initial}</Text>
@@ -66,7 +104,7 @@ export function MembershipCard({ profile }: { profile: UserProfile | null }) {
           </Text>
         </View>
       </View>
-    </View>
+    </Animated.View>
   );
 }
 

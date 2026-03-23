@@ -10,6 +10,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Animated from 'react-native-reanimated';
+import { useScreenEntrance } from '../../hooks/useScreenEntrance';
+import { AnimatedPressable } from '../../components/AnimatedPressable';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 
@@ -140,6 +143,9 @@ export default function MembershipScreen() {
   const isPlus = isKynoPlusPlan(profile);
   const canSubmitRequest = !isPlus && request?.status !== 'pending' && request?.status !== 'approved';
 
+  const headerAnim = useScreenEntrance(0);
+  const panelsAnim = useScreenEntrance(160);
+
   const handleWalletPress = async () => {
     if (!appleWalletEnabled) {
       Alert.alert(
@@ -197,7 +203,7 @@ export default function MembershipScreen() {
     <SafeAreaView style={[s.safe, { backgroundColor: c.background }]} edges={['top']}>
       <ScreenBackground isDark={isDark} />
       <ScrollView style={s.scroll} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
-        <View style={s.header}>
+        <Animated.View style={[s.header, headerAnim]}>
           <TouchableOpacity onPress={() => (fromSignup ? router.replace('/(tabs)') : router.back())}>
             <Text style={[s.backText, { color: c.textSecondary }]}>{fromSignup ? 'Skip for now' : '← Back'}</Text>
           </TouchableOpacity>
@@ -209,10 +215,11 @@ export default function MembershipScreen() {
               ? 'KYNO+ is active on this account.'
               : 'Your Kyno member card is live. KYNO+ can be requested from this screen.'}
           </Text>
-        </View>
+        </Animated.View>
 
         <MembershipCard profile={profile} />
 
+        <Animated.View style={panelsAnim}>
         <ThemedCard lightBackgroundColor={c.surface} lightBorderColor={c.border} style={s.panel}>
             <View style={s.planRow}>
               <View>
@@ -259,9 +266,9 @@ export default function MembershipScreen() {
                 </View>
               ))}
             </View>
-            <TouchableOpacity style={s.primaryBtn} onPress={() => router.push('/community')}>
+            <AnimatedPressable style={s.primaryBtn} onPress={() => router.push('/community')}>
               <Text style={s.primaryBtnText}>OPEN COMMUNITY</Text>
-            </TouchableOpacity>
+            </AnimatedPressable>
           </ThemedCard>
         ) : (
           <ThemedCard lightBackgroundColor={c.surface} lightBorderColor={c.border} style={s.panel}>
@@ -314,11 +321,11 @@ export default function MembershipScreen() {
 
             {requestError ? <Text style={s.error}>{requestError}</Text> : null}
 
-            <TouchableOpacity style={[s.primaryBtn, (!canSubmitRequest || submittingRequest) && s.disabledBtn]} onPress={() => void handleUpgradeRequest()} disabled={!canSubmitRequest || submittingRequest}>
+            <AnimatedPressable style={[s.primaryBtn, (!canSubmitRequest || submittingRequest) && s.disabledBtn]} onPress={() => void handleUpgradeRequest()} disabled={!canSubmitRequest || submittingRequest}>
               <Text style={s.primaryBtnText}>
                 {submittingRequest ? 'SUBMITTING...' : request?.status === 'declined' ? 'REQUEST KYNO+ AGAIN' : 'REQUEST KYNO+'}
               </Text>
-            </TouchableOpacity>
+            </AnimatedPressable>
           </ThemedCard>
         )}
 
@@ -339,6 +346,7 @@ export default function MembershipScreen() {
             <Text style={s.continueBtnText}>CONTINUE TO KYNO</Text>
           </TouchableOpacity>
         ) : null}
+        </Animated.View>
 
         <View style={s.bottomSpace} />
       </ScrollView>

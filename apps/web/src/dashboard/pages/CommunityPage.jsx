@@ -190,8 +190,12 @@ export default function CommunityPage() {
                   <div className="k-body">Be the first member to start the room.</div>
                 </div>
               ) : (
-                messages.map((message) => (
-                  <div key={message.id} className="k-community-message">
+                messages.map((message, index) => (
+                  <div
+                    key={message.id}
+                    className="k-community-message fade-up"
+                    style={{ animationDelay: `${Math.min(index, 8) * 0.04}s`, opacity: 0 }}
+                  >
                     <div className="k-community-message__meta">
                       <span className="k-community-message__author">{message.author_label}</span>
                       <span>{formatTimestamp(message.created_at)}</span>
