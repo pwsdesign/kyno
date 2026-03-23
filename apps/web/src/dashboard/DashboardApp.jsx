@@ -16,6 +16,7 @@ import SettingsPage from './pages/SettingsPage';
 import AccountPage from './pages/AccountPage';
 import DogsPage from './pages/DogsPage';
 import MembershipPage from './pages/MembershipPage';
+import CommunityPage from './pages/CommunityPage';
 import './styles/dashboard.css';
 
 function AuthRoutes() {
@@ -48,6 +49,7 @@ function DashboardRoutes() {
           <Route path="account" element={<AccountPage />} />
           <Route path="dogs" element={<DogsPage />} />
           <Route path="membership" element={<MembershipPage />} />
+          <Route path="community" element={<CommunityPage />} />
         </Routes>
       </DashboardLayout>
     </ProtectedRoute>

@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import Constants from 'expo-constants';
 import { colors, fonts, gold, stone, getColors } from '../../constants/colors';
 import { getCurrentProfile, signOut, type UserProfile } from '../../services/authService';
+import { getMembershipPlanLabel, isKynoPlusPlan } from '../../services/kynoPlusService';
 import { useTheme } from '../../context/ThemeContext';
 import { ScreenBackground } from '../../components/ScreenBackground';
 
@@ -43,7 +44,7 @@ export default function SettingsScreen() {
   const { isDark, toggleTheme, theme } = useTheme();
   const c = getColors(isDark);
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     let isMounted = true;
 
     async function loadProfile() {
@@ -64,7 +65,7 @@ export default function SettingsScreen() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, []));
 
   const displayName = [profile?.first_name, profile?.last_name].filter(Boolean).join(' ') || 'Account';
 
@@ -112,8 +113,9 @@ export default function SettingsScreen() {
         {/* Membership */}
         <SectionHeader title="MEMBERSHIP" />
         <View style={[s.card, { borderColor: c.border, backgroundColor: c.surface }]}>
-          <SettingsRow label="Membership Plan" value="Free" />
+          <SettingsRow label="Membership Plan" value={getMembershipPlanLabel(profile)} onPress={() => router.push('/membership')} />
           <SettingsRow label="Membership Card" value={profile?.membership_id ?? 'Generating'} onPress={() => router.push('/membership')} />
+          <SettingsRow label="Community Chat" value={isKynoPlusPlan(profile) ? 'Open' : 'KYNO+ only'} onPress={() => router.push('/community')} />
         </View>
 
         {/* Support */}

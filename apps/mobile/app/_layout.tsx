@@ -89,6 +89,12 @@ function RootContent({ fontsLoaded, fontError }: { fontsLoaded: boolean; fontErr
           }}
         />
         <Stack.Screen
+          name="community/index"
+          options={{
+            animation: 'slide_from_right',
+          }}
+        />
+        <Stack.Screen
           name="settings/terms"
           options={{
             animation: 'slide_from_right',

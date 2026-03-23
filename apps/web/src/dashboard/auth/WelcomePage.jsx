@@ -1,6 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 export default function WelcomePage() {
+  const [searchParams] = useSearchParams();
+  const intent = searchParams.get('intent');
+  const intentSuffix = intent ? `?intent=${encodeURIComponent(intent)}` : '';
+
   return (
     <div className="k-auth k-auth--dark">
       <div className="k-auth__container k-text-center">
@@ -12,10 +16,10 @@ export default function WelcomePage() {
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 48 }}>
-          <Link to="/auth/create-account" className="k-btn k-btn--primary k-btn--full" style={{ textDecoration: 'none' }}>
+          <Link to={`/auth/create-account${intentSuffix}`} className="k-btn k-btn--primary k-btn--full" style={{ textDecoration: 'none' }}>
             Create Account
           </Link>
-          <Link to="/auth/sign-in" className="k-btn k-btn--secondary k-btn--full" style={{ borderColor: 'var(--k-stone-600)', color: 'var(--k-warm-200)', textDecoration: 'none' }}>
+          <Link to={`/auth/sign-in${intentSuffix}`} className="k-btn k-btn--secondary k-btn--full" style={{ borderColor: 'var(--k-stone-600)', color: 'var(--k-warm-200)', textDecoration: 'none' }}>
             Sign In
           </Link>
         </div>

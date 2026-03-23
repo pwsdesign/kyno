@@ -3,6 +3,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import { colors, fonts, gold, stone, warm } from '../constants/colors';
 import type { UserProfile } from '../services/authService';
+import { getMembershipPlanLabel, isKynoPlusPlan } from '../services/kynoPlusService';
 
 function formatMemberSince(createdAt?: string | null) {
   if (!createdAt) {
@@ -21,6 +22,8 @@ export function MembershipCard({ profile }: { profile: UserProfile | null }) {
   const displayName = [profile?.first_name, profile?.last_name].filter(Boolean).join(' ') || 'Kyno Member';
   const initial = displayName.charAt(0).toUpperCase() || 'K';
   const membershipId = profile?.membership_id ?? 'KYN-2026-0000';
+  const isPlus = isKynoPlusPlan(profile);
+  const planLabel = getMembershipPlanLabel(profile);
 
   return (
     <View style={s.wrapper}>
@@ -48,13 +51,18 @@ export function MembershipCard({ profile }: { profile: UserProfile | null }) {
             <Text style={s.brandInitial}>{initial}</Text>
             <Text style={s.brandWord}>KYNO</Text>
           </View>
-          <Text style={s.memberLabel}>MEMBER</Text>
+          <View style={[s.planPill, isPlus && s.planPillPlus]}>
+            <Text style={[s.memberLabel, isPlus && s.memberLabelPlus]}>{planLabel}</Text>
+          </View>
         </View>
 
         <View style={s.footer}>
           <Text style={s.memberName}>{displayName}</Text>
           <Text style={s.memberMeta}>
             {membershipId}  ·  {formatMemberSince(profile?.created_at)}
+          </Text>
+          <Text style={[s.memberStatus, { color: isPlus ? gold[300] : stone[500] }]}>
+            {isPlus ? 'Premium community unlocked' : 'Standard member access'}
           </Text>
         </View>
       </View>
@@ -85,8 +93,21 @@ const s = StyleSheet.create({
   brandLockup: { alignItems: 'center', flexDirection: 'row' },
   brandInitial: { color: gold[500], fontFamily: fonts.serifMedium, fontSize: 42, marginRight: 12 },
   brandWord: { color: warm[300], fontFamily: fonts.serif, fontSize: 22, letterSpacing: 4 },
+  planPill: {
+    borderColor: 'rgba(212,168,58,0.18)',
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+  },
+  planPillPlus: {
+    backgroundColor: gold[400],
+    borderColor: 'transparent',
+  },
   memberLabel: { color: gold[500], fontFamily: fonts.sansMedium, fontSize: 12, letterSpacing: 2.4 },
+  memberLabelPlus: { color: '#FFFFFF' },
   footer: { marginTop: 'auto', paddingTop: 72 },
   memberName: { color: warm[300], fontFamily: fonts.serif, fontSize: 30, marginBottom: 10 },
   memberMeta: { color: stone[600], fontFamily: fonts.sansMedium, fontSize: 12, letterSpacing: 1.2 },
+  memberStatus: { fontFamily: fonts.sansMedium, fontSize: 11, letterSpacing: 1, marginTop: 14, textTransform: 'uppercase' },
 });

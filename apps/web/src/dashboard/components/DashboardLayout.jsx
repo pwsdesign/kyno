@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { to: '/dashboard', label: 'Home', icon: '\u2302' },
   { to: '/dashboard/services', label: 'Services', icon: '\u25C8' },
   { to: '/dashboard/activity', label: 'Activity', icon: '\u25F7' },
+  { to: '/dashboard/community', label: 'Community', icon: '\u2736' },
   { to: '/dashboard/profile', label: 'Profile', icon: '\u25CB' },
 ];
 

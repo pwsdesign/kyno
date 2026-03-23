@@ -1,11 +1,17 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { signOut } from '../services/authService';
+import { getMembershipPlanLabel } from '../services/kynoPlusService';
 import SettingsRow from '../components/SettingsRow';
 
 export default function SettingsPage() {
   const navigate = useNavigate();
-  const { profile } = useAuth();
+  const { profile, refreshProfile } = useAuth();
+
+  useEffect(() => {
+    refreshProfile().catch(() => {});
+  }, []);
 
   async function handleSignOut() {
     if (!window.confirm('Are you sure you want to sign out?')) return;
@@ -27,8 +33,9 @@ export default function SettingsPage() {
 
       <div className="k-settings-group">
         <div className="k-settings-group__title">Membership</div>
-        <SettingsRow label="Plan" value="Free" />
+        <SettingsRow label="Plan" value={getMembershipPlanLabel(profile)} onClick={() => navigate('/dashboard/membership')} />
         <SettingsRow label="Membership Card" onClick={() => navigate('/dashboard/membership')} />
+        <SettingsRow label="Community Chat" value={profile?.membership_plan === 'kyno_plus' ? 'Open' : 'KYNO+ only'} onClick={() => navigate('/dashboard/community')} />
       </div>
 
       <div className="k-settings-group">

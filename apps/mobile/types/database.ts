@@ -122,6 +122,8 @@ export interface Database {
           emergency_contact_phone: string | null;
           first_name: string | null;
           id: string;
+          membership_plan: 'free' | 'kyno_plus';
+          membership_plan_activated_at: string | null;
           last_name: string | null;
           membership_id: string | null;
           phone: string | null;
@@ -139,6 +141,8 @@ export interface Database {
           emergency_contact_phone?: string | null;
           first_name?: string | null;
           id: string;
+          membership_plan?: 'free' | 'kyno_plus';
+          membership_plan_activated_at?: string | null;
           last_name?: string | null;
           membership_id?: string | null;
           phone?: string | null;
@@ -156,12 +160,68 @@ export interface Database {
           emergency_contact_phone?: string | null;
           first_name?: string | null;
           id?: string;
+          membership_plan?: 'free' | 'kyno_plus';
+          membership_plan_activated_at?: string | null;
           last_name?: string | null;
           membership_id?: string | null;
           phone?: string | null;
           updated_at?: string;
           wallet_pass_token?: string | null;
           wallet_pass_url?: string | null;
+        };
+        Relationships: [];
+      };
+      membership_upgrade_requests: {
+        Row: {
+          created_at: string;
+          id: string;
+          note: string | null;
+          requested_plan: 'kyno_plus';
+          status: 'pending' | 'approved' | 'declined';
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          note?: string | null;
+          requested_plan?: 'kyno_plus';
+          status?: 'pending' | 'approved' | 'declined';
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          note?: string | null;
+          requested_plan?: 'kyno_plus';
+          status?: 'pending' | 'approved' | 'declined';
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      community_messages: {
+        Row: {
+          author_label: string;
+          body: string;
+          created_at: string;
+          id: string;
+          user_id: string;
+        };
+        Insert: {
+          author_label?: string;
+          body: string;
+          created_at?: string;
+          id?: string;
+          user_id: string;
+        };
+        Update: {
+          author_label?: string;
+          body?: string;
+          created_at?: string;
+          id?: string;
+          user_id?: string;
         };
         Relationships: [];
       };

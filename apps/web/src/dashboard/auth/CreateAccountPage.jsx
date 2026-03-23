@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 export default function CreateAccountPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const intent = searchParams.get('intent');
+  const intentSuffix = intent ? `?intent=${encodeURIComponent(intent)}` : '';
   const [form, setForm] = useState({ firstName: '', lastName: '', phone: '', email: '', password: '' });
   const [error, setError] = useState('');
 
@@ -15,13 +18,13 @@ export default function CreateAccountPage() {
     if (!form.email.trim()) { setError('Email is required.'); return; }
     if (!form.phone.trim()) { setError('Phone number is required.'); return; }
     if (form.password.length < 8) { setError('Password must be at least 8 characters.'); return; }
-    navigate('/auth/add-dog', { state: form });
+    navigate(`/auth/add-dog${intentSuffix}`, { state: form });
   }
 
   return (
     <div className="k-auth">
       <div className="k-auth__container">
-        <Link to="/auth/welcome" className="k-auth__back">&larr; Back</Link>
+        <Link to={`/auth/welcome${intentSuffix}`} className="k-auth__back">&larr; Back</Link>
         <h1 className="k-heading k-heading--lg" style={{ marginBottom: 4 }}>Create your account</h1>
         <p className="k-body k-mb-lg">Step 1 of 2</p>
 
@@ -53,7 +56,7 @@ export default function CreateAccountPage() {
         </form>
 
         <p className="k-caption k-text-center k-mt-lg">
-          Already have an account? <Link to="/auth/sign-in" style={{ color: 'var(--k-accent)' }}>Sign in</Link>
+          Already have an account? <Link to={`/auth/sign-in${intentSuffix}`} style={{ color: 'var(--k-accent)' }}>Sign in</Link>
         </p>
       </div>
     </div>

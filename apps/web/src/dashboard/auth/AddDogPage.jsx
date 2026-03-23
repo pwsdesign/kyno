@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import DogProfileFormCard, { createDraftDog } from '../components/DogProfileFormCard';
 import { createAccount } from '../services/authService';
 
 export default function AddDogPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const intent = searchParams.get('intent');
+  const intentSuffix = intent ? `?intent=${encodeURIComponent(intent)}` : '';
   const accountData = location.state;
   const [dogs, setDogs] = useState([createDraftDog()]);
   const [loading, setLoading] = useState(false);
@@ -13,10 +16,10 @@ export default function AddDogPage() {
 
   if (!accountData) {
     return (
-      <div className="k-auth">
+        <div className="k-auth">
         <div className="k-auth__container k-text-center">
           <p className="k-body">Session expired.</p>
-          <Link to="/auth/create-account" className="k-btn k-btn--primary k-mt-md">Start over</Link>
+          <Link to={`/auth/create-account${intentSuffix}`} className="k-btn k-btn--primary k-mt-md">Start over</Link>
         </div>
       </div>
     );
@@ -54,7 +57,7 @@ export default function AddDogPage() {
     setLoading(true);
     try {
       await createAccount({ ...accountData, dogs: [] });
-      navigate('/dashboard', { replace: true });
+      navigate(intent === 'kyno-plus' ? '/dashboard/membership?fromSignup=1' : '/dashboard', { replace: true });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -65,7 +68,7 @@ export default function AddDogPage() {
   return (
     <div className="k-auth" style={{ justifyContent: 'flex-start', paddingTop: 40 }}>
       <div className="k-auth__container">
-        <Link to="/auth/create-account" className="k-auth__back">&larr; Back</Link>
+        <Link to={`/auth/create-account${intentSuffix}`} className="k-auth__back">&larr; Back</Link>
         <h1 className="k-heading k-heading--lg" style={{ marginBottom: 4 }}>Add your dog</h1>
         <p className="k-body k-mb-lg">Step 2 of 2</p>
 

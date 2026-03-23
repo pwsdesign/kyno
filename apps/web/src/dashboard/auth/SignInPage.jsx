@@ -1,9 +1,12 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { signIn } from '../services/authService';
 
 export default function SignInPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const intent = searchParams.get('intent');
+  const intentSuffix = intent ? `?intent=${encodeURIComponent(intent)}` : '';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -16,7 +19,7 @@ export default function SignInPage() {
     setLoading(true);
     try {
       await signIn(email, password);
-      navigate('/dashboard', { replace: true });
+      navigate(intent === 'kyno-plus' ? '/dashboard/membership' : '/dashboard', { replace: true });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -27,7 +30,7 @@ export default function SignInPage() {
   return (
     <div className="k-auth">
       <div className="k-auth__container">
-        <Link to="/auth/welcome" className="k-auth__back">&larr; Back</Link>
+        <Link to={`/auth/welcome${intentSuffix}`} className="k-auth__back">&larr; Back</Link>
         <h1 className="k-heading k-heading--lg" style={{ marginBottom: 4 }}>Welcome back</h1>
         <p className="k-body k-mb-lg">Sign in to your account</p>
 
@@ -47,7 +50,7 @@ export default function SignInPage() {
         </form>
 
         <p className="k-caption k-text-center k-mt-lg">
-          Don't have an account? <Link to="/auth/create-account" style={{ color: 'var(--k-accent)' }}>Create one</Link>
+          Don't have an account? <Link to={`/auth/create-account${intentSuffix}`} style={{ color: 'var(--k-accent)' }}>Create one</Link>
         </p>
       </div>
     </div>
