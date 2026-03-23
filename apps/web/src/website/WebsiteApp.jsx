@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import globalStyles from '../styles/global';
 import websiteStyles from '../styles/website';
 import WebNav from './WebNav';
 import WebLanding from './WebLanding';
-import { colors } from '../styles/tokens';
-import { darkShellSurfaceStyle } from './surfaces';
+import { darkShellSurfaceStyle, lightShellSurfaceStyle } from './surfaces';
 
 export default function WebsiteApp() {
   const [lang, setLang] = useState('en');
@@ -24,7 +24,7 @@ export default function WebsiteApp() {
   }, [theme]);
 
   return (
-    <div style={{ ...(isDark ? darkShellSurfaceStyle : { background: colors.sand }), minHeight: '100vh' }}>
+    <div style={{ ...(isDark ? darkShellSurfaceStyle : lightShellSurfaceStyle), minHeight: '100vh' }}>
       <style>{globalStyles}</style>
       <style>{websiteStyles}</style>
 
@@ -34,7 +34,13 @@ export default function WebsiteApp() {
         setLang={setLang}
         toggleTheme={() => setTheme(current => (current === 'dark' ? 'light' : 'dark'))}
       />
-      <WebLanding isDark={isDark} lang={lang} />
+      <Routes>
+        <Route index element={<WebLanding audience="owners" isDark={isDark} lang={lang} />} />
+        <Route path="owners" element={<Navigate to="/" replace />} />
+        <Route path="providers" element={<WebLanding audience="providers" isDark={isDark} lang={lang} />} />
+        <Route path="partners" element={<WebLanding audience="partners" isDark={isDark} lang={lang} />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </div>
   );
 }

@@ -1,114 +1,138 @@
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { colors } from '../styles/tokens';
 import { t } from './translations';
 
-export default function WebNav({ lang, setLang, isDark, toggleTheme }) {
-  const tx = t[lang].nav;
+function getAudience(pathname) {
+  if (pathname.startsWith('/providers')) return 'providers';
+  if (pathname.startsWith('/partners')) return 'partners';
+  return 'owners';
+}
 
-  const scrollTo = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+export default function WebNav({ lang, setLang, isDark, toggleTheme }) {
+  const { pathname } = useLocation();
+  const audience = getAudience(pathname);
+  const tx = t[lang];
+  const ctaLabel = tx.nav.cta[audience];
+  const inactiveLinkColor = isDark ? 'rgba(247,241,230,0.72)' : 'rgba(53,50,44,0.68)';
+  const activeLinkColor = isDark ? colors.sandLight : colors.espresso;
+  const activeLinkBackground = isDark ? 'rgba(212,168,58,0.14)' : 'rgba(224,205,172,0.48)';
+
+  const jumpToForm = () => {
+    document.getElementById('join')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
     <nav
       className="web-nav"
       style={{
-        background: isDark ? 'rgba(28,26,23,0.92)' : 'rgba(253,251,247,0.94)',
-        borderBottom: `1px solid ${isDark ? 'rgba(196,164,107,0.12)' : 'rgba(28,26,23,0.08)'}`,
+        background: isDark ? 'rgba(22,20,17,0.84)' : 'rgba(255,250,243,0.84)',
+        borderBottom: `1px solid ${isDark ? 'rgba(212,168,58,0.12)' : 'rgba(53,50,44,0.08)'}`,
       }}
     >
       <div className="web-nav-inner">
-        {/* Logo */}
-        <div
-          className="web-nav-logo"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          style={{ cursor: 'pointer' }}
-        >
-          <div className="web-nav-logo-mark" style={{ color: isDark ? colors.brass : colors.espresso }}>K</div>
+        <Link className="web-nav-logo" to="/">
+          <div className="web-nav-logo-mark" style={{ color: colors.espresso }}>K</div>
           <span className="web-nav-wordmark" style={{ color: isDark ? colors.sandLight : colors.espresso }}>Kyno</span>
-        </div>
+        </Link>
 
-        {/* Anchor links */}
         <div className="web-nav-links">
-          <span className="web-nav-link" style={{ color: isDark ? 'rgba(232,223,212,0.72)' : 'rgba(28,26,23,0.72)' }} onClick={() => scrollTo('owners')}>{tx.owners}</span>
-          <span className="web-nav-link" style={{ color: isDark ? 'rgba(232,223,212,0.72)' : 'rgba(28,26,23,0.72)' }} onClick={() => scrollTo('providers')}>{tx.providers}</span>
-          <span className="web-nav-link" style={{ color: isDark ? 'rgba(232,223,212,0.72)' : 'rgba(28,26,23,0.72)' }} onClick={() => scrollTo('partners')}>{tx.partners}</span>
+          <NavLink
+            end
+            to="/"
+            className={({ isActive }) => `web-nav-link ${isActive ? 'active' : ''}`}
+            style={({ isActive }) => ({
+              color: isActive ? activeLinkColor : inactiveLinkColor,
+              background: isActive ? activeLinkBackground : 'transparent',
+            })}
+          >
+            {tx.nav.owners}
+          </NavLink>
+          <NavLink
+            to="/providers"
+            className={({ isActive }) => `web-nav-link ${isActive ? 'active' : ''}`}
+            style={({ isActive }) => ({
+              color: isActive ? activeLinkColor : inactiveLinkColor,
+              background: isActive ? activeLinkBackground : 'transparent',
+            })}
+          >
+            {tx.nav.providers}
+          </NavLink>
+          <NavLink
+            to="/partners"
+            className={({ isActive }) => `web-nav-link ${isActive ? 'active' : ''}`}
+            style={({ isActive }) => ({
+              color: isActive ? activeLinkColor : inactiveLinkColor,
+              background: isActive ? activeLinkBackground : 'transparent',
+            })}
+          >
+            {tx.nav.partners}
+          </NavLink>
         </div>
 
-        {/* CTA + Language toggle */}
-        <div className="web-nav-actions" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div className="web-nav-actions">
           <button
+            type="button"
             onClick={toggleTheme}
+            className="web-theme-toggle"
             style={{
-              background: isDark ? 'rgba(232,223,212,0.08)' : 'rgba(28,26,23,0.06)',
+              background: isDark ? 'rgba(247,241,230,0.08)' : 'rgba(53,50,44,0.06)',
               color: isDark ? colors.sandLight : colors.espresso,
-              border: `1px solid ${isDark ? 'rgba(196,164,107,0.2)' : 'rgba(28,26,23,0.08)'}`,
-              borderRadius: 999,
-              padding: '8px 12px',
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 10,
-              fontWeight: 600,
-              letterSpacing: 1.5,
-              textTransform: 'uppercase',
-              cursor: 'pointer',
+              border: `1px solid ${isDark ? 'rgba(212,168,58,0.16)' : 'rgba(53,50,44,0.08)'}`,
             }}
           >
-            {isDark ? '☾ Dark' : '☼ Light'}
+            {isDark ? 'Dark' : 'Light'}
           </button>
 
-          {/* EN / ES toggle */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            background: 'rgba(196,164,107,0.12)',
-            borderRadius: 20,
-            padding: 3,
-            gap: 2,
-          }}>
-            {['en', 'es'].map((l) => (
+          <div
+            className="web-lang-toggle"
+            style={{
+              background: isDark ? 'rgba(247,241,230,0.06)' : 'rgba(53,50,44,0.05)',
+              border: `1px solid ${isDark ? 'rgba(212,168,58,0.14)' : 'rgba(53,50,44,0.07)'}`,
+            }}
+          >
+            {['en', 'es'].map((locale) => (
               <button
-                key={l}
-                onClick={() => setLang(l)}
+                key={locale}
+                type="button"
+                onClick={() => setLang(locale)}
                 style={{
-                  background: lang === l ? colors.brass : 'transparent',
-                  color: lang === l ? colors.espresso : colors.brass,
-                  border: 'none',
-                  borderRadius: 16,
-                  padding: '4px 10px',
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 10,
-                  fontWeight: 600,
-                  letterSpacing: 1.5,
-                  textTransform: 'uppercase',
-                  cursor: 'pointer',
-                  transition: 'background 0.15s, color 0.15s',
+                  background: lang === locale ? colors.brass : 'transparent',
+                  color: lang === locale ? colors.espresso : isDark ? colors.sandLight : colors.charcoal,
                 }}
               >
-                {l}
+                {locale}
               </button>
             ))}
           </div>
 
           <button
+            type="button"
             className="lp-nav-cta"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={jumpToForm}
             style={{
+              appearance: 'none',
               background: colors.brass,
               color: colors.espresso,
               border: 'none',
-              borderRadius: 8,
-              padding: '8px 18px',
+              borderRadius: 999,
+              padding: '10px 18px',
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: 10,
-              fontWeight: 600,
-              letterSpacing: 1.8,
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: 1.4,
               textTransform: 'uppercase',
               cursor: 'pointer',
-              transition: 'background 0.15s',
+              whiteSpace: 'nowrap',
+              boxShadow: isDark ? '0 10px 30px rgba(0,0,0,0.2)' : '0 10px 26px rgba(102,75,20,0.12)',
             }}
-            onMouseEnter={e => e.currentTarget.style.background = colors.brassLight}
-            onMouseLeave={e => e.currentTarget.style.background = colors.brass}
+            onMouseEnter={(event) => {
+              event.currentTarget.style.background = colors.brassLight;
+            }}
+            onMouseLeave={(event) => {
+              event.currentTarget.style.background = colors.brass;
+            }}
           >
-            {tx.cta}
+            {ctaLabel}
           </button>
         </div>
       </div>

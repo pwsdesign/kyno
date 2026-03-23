@@ -19,3 +19,35 @@ export const darkCardSurfaceStyle = {
   backgroundRepeat: 'no-repeat, no-repeat',
   backgroundSize: '260px 240px, cover',
 };
+
+export const lightShellSurfaceStyle = {
+  backgroundColor: '#FDFBF7',
+  backgroundImage: [
+    'radial-gradient(circle at 100% 0%, rgba(212,168,58,0.20) 0%, rgba(212,168,58,0.07) 24%, rgba(212,168,58,0) 48%)',
+    'linear-gradient(180deg, #FFF8EC 0%, #FDFBF7 34%, #F5EEE0 100%)',
+  ].join(', '),
+  backgroundPosition: 'top right, center',
+  backgroundRepeat: 'no-repeat, no-repeat',
+  backgroundSize: '560px 420px, cover',
+};
+
+export const lightCardSurfaceStyle = {
+  backgroundColor: 'rgba(255,249,239,0.9)',
+  backgroundImage: [
+    'radial-gradient(circle at 100% 0%, rgba(212,168,58,0.14) 0%, rgba(212,168,58,0.05) 26%, rgba(212,168,58,0) 48%)',
+    'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(250,242,227,0.9) 100%)',
+  ].join(', '),
+  backgroundPosition: 'top right, center',
+  backgroundRepeat: 'no-repeat, no-repeat',
+  backgroundSize: '280px 220px, cover',
+};
+
+export const lightPanelSurfaceStyle = {
+  backgroundColor: 'rgba(255,252,247,0.86)',
+  backgroundImage: [
+    'linear-gradient(180deg, rgba(255,255,255,0.75) 0%, rgba(248,241,229,0.88) 100%)',
+  ].join(', '),
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
+};
